@@ -1,0 +1,39 @@
+// SEED DATA
+
+create (p1:  Person{name: 'Sam', occupation: 'fireman'})
+create (p2:  Person{name: 'Elvis', occupation: 'fireman'})
+create (p3:  Person{name: 'Penny', occupation: 'fireman'})
+create (p4:  Person{name: 'Steele', occupation: 'chief fireman'})
+create (p5:  Person{name: 'Trevor', occupation: 'bus driver'})
+create (p6:  Person{name: 'Norman', occupation: 'trouble maker'})
+create (p7:  Person{name: 'James', occupation: 'student'})
+create (p8:  Person{name: 'Sarah', occupation: 'student'})
+create (p9:  Person{name: 'Dolly', occupation: 'shop owner'})
+create (p10:  Person{name: 'Rosa', occupation: 'cat'})
+
+WITH 1 as dummy
+match(p1: Person{name:'Sam'}), (p2: Person{name: 'Elvis'}) create (p1)-[:IS_FRIENDS_WITH]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'Steele'}), (p2: Person{name: 'Sam'}) create (p1)-[:IS_FRIENDS_WITH]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'Elvis'}), (p2: Person{name: 'Penny'}) create (p1)-[:IS_FRIENDS_WITH]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'Dolly'}), (p2: Person{name: 'Norman'}) create (p1)-[:IS_FRIENDS_WITH]->(p2)
+
+
+create(post1: Post{id: 1, title: 'ny brannmann'})
+create(post2: Post{id: 2, title: 'brann i cafeen til Bella'})
+
+
+// 1) Opprett en ny person
+create (p:  Person{name: 'Bella', occupation: 'cafe owner'})
+
+
+// 2 Opprett en relasjon mellom to personer
+match(p1: Person{name: 'Sam'}), (p2: Person{name: 'Sarah'}) create (p1)-[:IS_FRIENDS_WITH]->(p2)
+
+// 3 Finn alle venner til brannmann SAM
+match(sam:Person)-[:IS_FRIENDS_WITH]-(other:Person) where sam.name='Sam' return other
+
+// 4 Finn alle felles venner av Sam og Elvis
+match (sam{name:'Sam'})-[:IS_FRIENDS_WITH]-(person), (elvis{name:'Elvis'})-[:IS_FRIENDS_WITH]-(person) return person
