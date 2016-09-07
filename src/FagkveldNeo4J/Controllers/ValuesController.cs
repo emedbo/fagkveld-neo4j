@@ -29,26 +29,16 @@ namespace FagkveldNeo4J.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new string[2].Json();
+            var stuff = _client.Cypher.Match("(p:Person)")
+                .Return(p => p.As<Person>()).Results;
+            return Ok(stuff);
         }
     }
-
-    public static class Ext
-    {
-        public static IActionResult Json(this object obj)
-        {
-            return new JsonResult(obj);
-        }
-
-        //public static IEnumerable<IActionResult> Json(this IEnumerable<object> obj)
-        //{
-        //    return JsonConvert.SerializeObject(obj);
-        //}
-    }
-
+    
     public class Person
     {
-        public string Name { get; set; }
-        public string Occupation { get; set; }
+        
+        public string name { get; set; }
+        public string occupation { get; set; }
     }
 }

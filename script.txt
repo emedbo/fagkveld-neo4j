@@ -30,6 +30,19 @@ match(p1: Person{name:'Sam'}), (p2: Person{name: 'Trevor'}) create (p1)-[:IS_FRI
 
 create(post1: Post{id: 1, title: 'Ny brannmann'})
 create(post2: Post{id: 2, title: 'Brann på brannstasjonen!'})
+create(post3: Post{id: 3, title: 'Bellas lasagne best i byen'})
+
+WITH 1 as dummy
+match(p1: Person{name:'Sam'}), (p2: Post{id: 3}) create (p1)-[:LIKES]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'Elvis'}), (p2: Post{id: 3}) create (p1)-[:LIKES]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'Steele'}), (p2: Post{id: 3}) create (p1)-[:LIKES]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'Sarah'}), (p2: Post{id: 3}) create (p1)-[:LIKES]->(p2)
+WITH 1 as dummy
+match(p1: Person{name:'James'}), (p2: Post{id: 3}) create (p1)-[:LIKES]->(p2)
+
 
 
 // 1) Opprett en ny person
@@ -44,3 +57,10 @@ match(sam:Person)-[:IS_FRIENDS_WITH]-(other:Person) where sam.name='Sam' return 
 
 // 4 Finn alle felles venner av Sam og Elvis
 match (sam{name:'Sam'})-[:IS_FRIENDS_WITH]-(person), (norman{name:'Norman'})-[:IS_FRIENDS_WITH]-(person) return person
+
+// 5 Finn alle som liker artikkelen med id 3
+match (n)-[:LIKES]->(p:Post{id:3}) return n
+
+// 6 finn alle som har et 2-ledds vennskap med brannmann Sam
+match (n)-[:IS_FRIENDS_WITH]-()-[:IS_FRIENDS_WITH]-(p:Person{name:'Sam'}) return n
+match (n)-[:IS_FRIENDS_WITH]-()-[:IS_FRIENDS_WITH]-(p) where p.name='Sam' return n
